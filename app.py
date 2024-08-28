@@ -32,8 +32,8 @@ def extract_news(url, query=None):
     news_items = []
 
     if soup.find('div', class_='category-col'):
-        for article in soup.find_all('div', class_='category-col'):
-            title_tag = article.find('h3')
+        #for article in soup.find_all('div', class_='category-col'):
+            title_tag = soup.find('h3')
             title = title_tag.get_text(strip=True) if title_tag else "No title available"
 
             # Extract the news link from the 'href' attribute in the anchor tag
@@ -67,15 +67,15 @@ def extract_news(url, query=None):
                 paragraph = "No additional content available"
 
             # Extract image source from the <img> tag
-            image_tag = article.find('img', class_='article-img')
+            image_tag = soup.find('img', class_='article-img')
             image = image_tag['src'] if image_tag else "https://via.placeholder.com/150"
 
             # Extract the author from the <span> tag with class 'name'
-            author_tag = article.find('span', class_='name')
+            author_tag = soup.find('span', class_='name')
             author = author_tag.get_text(strip=True) if author_tag else "No author available"
 
             # Extract the category (slug) from the <div> tag with class 'slug'
-            category_tag = article.find('div', class_='slug')
+            category_tag = soup.find('div', class_='slug')
             category = category_tag.get_text(strip=True) if category_tag else "No category available"
 
             # Use title for description if no specific description is available
