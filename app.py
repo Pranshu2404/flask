@@ -102,6 +102,7 @@ def extract_news(url, query=None):
             news_counter+=1
 
     else:
+        filtered_news_items = []
         for article in soup.find_all('div', class_='col-12 col-md-3 col-lg-3 mb-3 br-grey'):
             if news_counter >= max_news_items:  # Check if the limit is reached
               break
@@ -163,14 +164,13 @@ def extract_news(url, query=None):
                 'category': category,
                 'paragraph': search_gemini(paragraph)  # Newly added field
             })
-            news_counter+=1
-            
-            # Apply search query filter if query is present
             if query:
-                if any(query.lower() in str(value).lower() for value in news_items.values()):
-                    news_items.append(news_items)
-            else:
-                news_items.append(news_items)
+              if any(query.lower() in str(value).lower() for value in news_items.values()):
+                   filtered_news_items.append(news_items)
+              else:
+                   filtered_news_items.append(news_items)
+
+            news_counter += 1
 
 
     try:
