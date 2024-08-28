@@ -37,7 +37,7 @@ def extract_news(url, query=None):
         for article in soup.find_all('div', class_='category-col'):
             if news_counter >= max_news_items:  # Check if the limit is reached
               break
-            title_tag = soup.find('h3')
+            title_tag = article.find('h3')
             title = title_tag.get_text(strip=True) if title_tag else "No title available"
 
             # Extract the news link from the 'href' attribute in the anchor tag
@@ -71,15 +71,15 @@ def extract_news(url, query=None):
                 paragraph = "No additional content available"
 
             # Extract image source from the <img> tag
-            image_tag = soup.find('img', class_='article-img')
+            image_tag = article.find('img', class_='article-img')
             image = image_tag['src'] if image_tag else "https://via.placeholder.com/150"
 
             # Extract the author from the <span> tag with class 'name'
-            author_tag = soup.find('span', class_='name')
+            author_tag = article.find('span', class_='name')
             author = author_tag.get_text(strip=True) if author_tag else "No author available"
 
             # Extract the category (slug) from the <div> tag with class 'slug'
-            category_tag = soup.find('div', class_='slug')
+            category_tag = article.find('div', class_='slug')
             category = category_tag.get_text(strip=True) if category_tag else "No category available"
 
             # Use title for description if no specific description is available
@@ -103,6 +103,8 @@ def extract_news(url, query=None):
 
     else:
         for article in soup.find_all('div', class_='col-12 col-md-3 col-lg-3 mb-3 br-grey'):
+            if news_counter >= max_news_items:  # Check if the limit is reached
+              break
             title_tag = article.find('h3')
             title = title_tag.get_text(strip=True) if title_tag else "No title available"
 
@@ -161,6 +163,8 @@ def extract_news(url, query=None):
                 'category': category,
                 'paragraph': search_gemini(paragraph)  # Newly added field
             })
+            news_counter+=1
+            
             # Apply search query filter if query is present
             if query:
                 if any(query.lower() in str(value).lower() for value in news_items.values()):
