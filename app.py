@@ -187,11 +187,6 @@ def extract_news_by_query(query):
 
     return filtered_news
 
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
 @app.route('/news/<category>')
 def news(category):
     # Construct the URL dynamically based on the category parameter
