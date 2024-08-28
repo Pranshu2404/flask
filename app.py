@@ -30,9 +30,13 @@ def extract_news(url, query=None):
 
     soup = BeautifulSoup(response.content, 'html.parser')
     news_items = []
+    max_news_items = 5  # Set the maximum number of news items to fetch
+    news_counter = 0
 
     if soup.find('div', class_='category-col'):
-        #for article in soup.find_all('div', class_='category-col'):
+        for article in soup.find_all('div', class_='category-col'):
+            if news_counter >= max_news_items:  # Check if the limit is reached
+              break
             title_tag = soup.find('h3')
             title = title_tag.get_text(strip=True) if title_tag else "No title available"
 
@@ -95,6 +99,7 @@ def extract_news(url, query=None):
                 'category': category,
                 'paragraph': search_gemini(paragraph)  # Newly added field
             })
+            news_counter+=1
 
     else:
         for article in soup.find_all('div', class_='col-12 col-md-3 col-lg-3 mb-3 br-grey'):
