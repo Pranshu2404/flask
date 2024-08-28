@@ -32,7 +32,7 @@ def extract_news(url, query=None):
     news_items = []
 
     if soup.find('div', class_='category-col'):
-        for article in soup.find_all('div', class_='category-col'):
+        #for article in soup.find_all('div', class_='category-col'):
             title_tag = article.find('h3')
             title = title_tag.get_text(strip=True) if title_tag else "No title available"
 
