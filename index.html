@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ category.capitalize() }} News</title>
+</head>
+<body>
+    <h1>{{ category.capitalize() }} News</h1>
+    {% if news_items %}
+        <ul>
+            {% for news in news_items %}
+                <li>
+                    <h3><a href="{{ news.link }}">{{ news.title }}</a></h3>
+                    <img src="{{ news.image }}" alt="{{ news.title }}" width="150">
+                    <p>{{ news.description }}</p>
+                    <p><strong>Author:</strong> {{ news.author }}</p>
+                    <p><strong>Category:</strong> {{ news.category }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No news items available for this category.</p>
+    {% endif %}
+</body>
+</html>
